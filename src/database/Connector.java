@@ -12,13 +12,9 @@ public class Connector {
 
     private Connection conn;
 
-    public Connector() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            this.conn = DriverManager.getConnection(connectionString, user, pwd);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+    public Connector() throws Exception{
+        Class.forName("com.mysql.jdbc.Driver");
+        this.conn = DriverManager.getConnection(connectionString, user, pwd);
     }
 
     private Statement getStatement() throws Exception{
