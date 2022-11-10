@@ -1,3 +1,5 @@
+package javafx;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         rootStage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("javafx/student/list/list.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("student/list/list.fxml"));
         primaryStage.setTitle("T2204M JavaFX");
         primaryStage.setScene(new Scene(root,800,600));
         primaryStage.show();

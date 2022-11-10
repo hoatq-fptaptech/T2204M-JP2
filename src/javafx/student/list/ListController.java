@@ -2,16 +2,21 @@ package javafx.student.list;
 
 import database.Connector;
 import entities.Student;
+import javafx.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class ListController implements Initializable {
 
@@ -22,6 +27,8 @@ public class ListController implements Initializable {
     public TableColumn<Student,String> cGender;
     public TableColumn<Student, Button> cAction;
     public TextField txtSearch;
+
+    private ObservableList<Student> ls = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,7 +42,7 @@ public class ListController implements Initializable {
             Connector connector = new Connector();
             String sql = "select * from students";
             ResultSet rs = connector.query(sql);
-            ObservableList<Student> ls = FXCollections.observableArrayList();
+
             while (rs.next()){
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
@@ -53,9 +60,29 @@ public class ListController implements Initializable {
         }
     }
 
-    public void search(ActionEvent actionEvent) {
+    public void createStudent(ActionEvent event) throws Exception{
+        Parent createForm = FXMLLoader.load(getClass().getResource("../create/create.fxml"));
+        Scene sc = new Scene(createForm,800,600);
+        Main.rootStage.setScene(sc);
     }
 
-    public void createStudent(ActionEvent actionEvent) {
+    public void search(ActionEvent actionEvent) {
+        try {
+            String s = txtSearch.getText();
+            if(s.isEmpty()){
+                tbStudents.setItems(ls);
+                throw new Exception("Vui lòng nhập từ cần tìm kiếm");
+            }
+
+            ObservableList<Student> results = ls.stream()
+                    .filter(student -> student.getName().toLowerCase().contains(s.toLowerCase()))
+                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
+            tbStudents.setItems(results);
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText(e.getMessage());
+            alert.show();
+        }
     }
 }
