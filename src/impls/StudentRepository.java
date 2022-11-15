@@ -7,7 +7,7 @@ import interfaces.IRepository;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class StudentRepository implements IRepository {
+public class StudentRepository implements IRepository<Student> {
     @Override
     public ArrayList<Student> all() {
         ArrayList<Student> ls = new ArrayList<>();

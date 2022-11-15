@@ -2,6 +2,8 @@ package javafx.student.create;
 
 import database.Connector;
 import entities.Student;
+import enums.RepoType;
+import factory.Factory;
 import impls.StudentRepository;
 import javafx.Main;
 import javafx.collections.FXCollections;
@@ -43,7 +45,7 @@ public class CreateController implements Initializable {
                 throw new Exception("Điểm thi không hợp lệ");
             // them sv
             Student s=  new Student(null, txtName.getText(),txtEmail.getText(),m,cbGender.getValue());
-            StudentRepository sr = new StudentRepository();
+            StudentRepository sr = (StudentRepository) Factory.createRepository(RepoType.STUDENT);
             if(sr.create(s)){
                 backToList(null);
                 return;
