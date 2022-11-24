@@ -2,6 +2,33 @@ package demo.threads;
 
 public class Main {
     public static void main(String[] args){
+        Number n = new Number();
+        Number n1 = new Number();
+
+        Runnable r = ()->{
+          for (int i=0;i<20;i++){
+              //synchronized (n){
+                  n.changeNumber();
+                  n.printNumber();
+              //}
+              try {
+                  Thread.sleep(1000);
+              }catch (Exception e){}
+          }
+        };
+
+        Thread t1 = new Thread(r);
+        Thread t2 = new Thread(r);
+        Thread t3 = new Thread(r);
+        t1.start();
+//        try {
+//            t1.join();
+//        }catch (Exception e){}
+        t2.start();
+        t3.start();
+    }
+
+    public static void main2(String[] args){
 
         Subthread s1 = new Subthread();
         s1.start();
