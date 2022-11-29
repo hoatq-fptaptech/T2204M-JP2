@@ -2,6 +2,22 @@ package demo.threads;
 
 public class Main {
     public static void main(String[] args){
+        BankAccount ba = new BankAccount();
+        new Thread(()->{
+            for(int i=0;i<10;i++){
+                ba.deposit(200);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    //throw new RuntimeException(e);
+                }
+            }
+        }).start();
+        new Thread(()->{
+            ba.withdraw(1000);
+        }).start();
+    }
+    public static void main3(String[] args){
         Number n = new Number();
         Number n1 = new Number();
 
